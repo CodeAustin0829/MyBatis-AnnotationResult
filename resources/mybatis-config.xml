@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    
+    <!--全局配置
+        resource:指定外置的properties配置文件
+    -->
+    <properties resource="jdbc.properties">
+       <!-- <property name="username" value="root"/>-->
+    </properties>
+    <!--
+    使用注解的方式，进行延迟加载，此处可以不写，因为不受影响
+    <settings>
+        &lt;!&ndash;打开延迟加载开关&ndash;&gt;
+        <setting name="lazyLoadingEnabled" value="true"/>
+        &lt;!&ndash;改为按需加载&ndash;&gt;
+        <setting name="aggressiveLazyLoading" value="false"/>
+    </settings>
+    -->
+
+
+    <!--别名-->
+    <typeAliases>
+        <!--
+            type:类型  alias:别名,使用时忽略大小写
+        -->
+        <!--<typeAlias type="com.atguigu.pojo.User" alias="user"/>-->
+        <!--
+            直接把包放入,会默认给包下的类起别名,别名是类名首字母小写
+        -->
+        <package name="com.atguigu"/>
+    </typeAliases>
+
+
+    <!--环境
+        default:框架运行时加载的唯一环境
+    -->
+    <environments default="dev">
+        <!--开发环境-->
+        <environment id="dev">
+            <!--
+                transactionManager:事务
+                MANAGED:不用事务
+                JDBC:使用数据源默认的事务
+            -->
+            <transactionManager type="JDBC">
+               <!-- <property name="closeConnection" value="false"/>-->
+            </transactionManager>
+            <!--
+                dataSource:数据源,连接池
+                POOLED:就表示使用mybatis内置的连接池
+                UNPOOLED:不适用连接池,每次创建一个Connection
+            -->
+            <dataSource type="POOLED">
+                <!--数据库的必要属性-->
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+
+    </environments>
+
+    <!--数据库厂商标识-->
+    <databaseIdProvider type="DB_VENDOR">
+        <property name="SQL Server" value="sqlserver"/>
+        <property name="DB2" value="db2"/>
+        <property name="Oracle" value="oracle" />
+        <property name="MySQL" value="mysql" />
+    </databaseIdProvider>
+
+    <!--sql映射-->
+    <mappers>
+        <package name="com.atguigu.mapper"/>
+    </mappers>
+</configuration>
